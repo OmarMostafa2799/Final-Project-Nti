@@ -38,7 +38,7 @@ pipeline {
             steps {
                 
                  
-                 sh 'kubectl apply -f ./k8s/mongo-scret.yml '
+                 sh 'kubectl apply -f ./k8s/mongo-secret.yml '
                  sh 'kubectl apply -f ./k8s/mongo-sc.yml '  
                  sh 'kubectl apply -f ./k8s/mongo-pvc.yml '
                  sh 'kubectl apply -f ./k8s/mongo.yml '
