@@ -5,8 +5,8 @@ pipeline {
         // Credentials ID from AWS Credentials Plugin
         AWS_ACCESS_KEY_ID = credentials('access-key')
         AWS_SECRET_ACCESS_KEY = credentials('secret-key')
-        ECR_REPOSITORY_URI= '637423558559.dkr.ecr.eu-west-1.amazonaws.com'
-        AWS_REGION = 'eu-west-1'
+        ECR_REPOSITORY_URI= 'public.ecr.aws/m9e9t7m6/omar'
+        AWS_REGION = 'ca-central-1'
     }
 
     stages {
@@ -29,17 +29,20 @@ pipeline {
              steps {
                     sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/ecr-myhub:${BUILD_NUMBER}|g' ./k8s/backend.yml"
                     sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/ecr-myhub:${BUILD_NUMBER}|g' ./k8s/frontend.yml"
-                      sh "aws eks update-kubeconfig --region eu-west-1 --name NTI_eks_cluster "
+                      sh "aws eks update-kubeconfig --region ca-central-1 --name master-eks "
              }
         }
 
         
         stage('apply database') {
             steps {
-             
-                 sh 'kubectl apply -f ./k8s/mongo.yaml '  
-                 sh 'kubectl apply -f ./k8s/mongo-pvc.yaml '
-                 sh 'kubectl apply -f ./k8s/mongo-svc.yaml '
+                
+                 
+                 sh 'kubectl apply -f ./k8s/mongo-scret.yml '
+                 sh 'kubectl apply -f ./k8s/mongo-sc.yml '  
+                 sh 'kubectl apply -f ./k8s/mongo-pvc.yml '
+                 sh 'kubectl apply -f ./k8s/mongo.yml '
+                 sh 'kubectl apply -f ./k8s/network-policy.yml '
             }
         }
 
