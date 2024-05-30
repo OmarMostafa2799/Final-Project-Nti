@@ -38,9 +38,9 @@ pipeline {
             steps {
                 
                  
-                 sh 'kubectl apply -f ./k8s/mongo-secret.yml '
-                 sh 'kubectl apply -f ./k8s/mongo-sc.yml '  
-                 sh 'kubectl apply -f ./k8s/mongo-pvc.yml '
+                 sh 'kubectl apply -f ./k8s/mongodb-secret.yml '
+                 sh 'kubectl apply -f ./k8s/mongodb-sc.yml '  
+                 sh 'kubectl apply -f ./k8s/mongodb-pvc.yml '
                  sh 'kubectl apply -f ./k8s/mongo.yml '
                  sh 'kubectl apply -f ./k8s/network-policy.yml '
             }
