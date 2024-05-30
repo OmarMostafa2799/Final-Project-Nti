@@ -1,0 +1,44 @@
+# Deployment for Backend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: your-backend-image:tag
+        ports:
+        - containerPort: 8080
+---
+# StatefulSet for Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database-statefulset
+spec:
+  serviceName: database
+  replicas: 3
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: database-container
+        image: your-database-image:tag
+        ports:
+        - containerPort: 27017
+        # Add volumeMounts and volumes if needed for database storage
+      # Add other specifications as needed for your database
