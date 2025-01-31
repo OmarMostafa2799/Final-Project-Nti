@@ -1,15 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        // Credentials ID from AWS Credentials Plugin
-        AWS_ACCESS_KEY_ID = credentials('access-key')
-        AWS_SECRET_ACCESS_KEY = credentials('secret-key')
-        ECR_REPOSITORY_URI= '637423558559.dkr.ecr.ca-central-1.amazonaws.com'
-        AWS_REGION = 'ca-central-1'
-    }
+    // environment {
+    //     // Credentials ID from AWS Credentials Plugin
+    //     AWS_ACCESS_KEY_ID = credentials('access-key')
+    //     AWS_SECRET_ACCESS_KEY = credentials('secret-key')
+    //     ECR_REPOSITORY_URI= '637423558559.dkr.ecr.ca-central-1.amazonaws.com'
+    //     AWS_REGION = 'ca-central-1'
+    // }
 
     stages {
+        stage('echo') {
+             steps {
+               sh 'echo "headway"'
+             }
+         }
          stage('Build Docker Image front') {
              steps {
                
