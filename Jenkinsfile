@@ -33,15 +33,15 @@ pipeline {
          }
          stage('Build Docker Image back') {
              steps {
-                 sh 'docker build -t ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER} ./app/backend/.'
+                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER} ./app/backend/.'
                  sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY_URI}'
-                 sh 'docker push ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER}'
+                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}'
              }
          }
          stage('Kubernetes Edit Files') {
              steps {
-                    sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER}|g' ./k8s/backend.yml"
-                    sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER}|g' ./k8s/frontend.yml"
+                    sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}|g' ./k8s/backend.yml"
+                    sh "sed -i 's|image:.*|image: ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}|g' ./k8s/frontend.yml"
                       sh "aws eks update-kubeconfig --region ca-central-1 --name master-eks "
              }
         }
