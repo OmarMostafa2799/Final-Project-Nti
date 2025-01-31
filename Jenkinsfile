@@ -26,16 +26,16 @@ pipeline {
          stage('Build Docker Image front') {
              steps {
                
-                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER} ./app/frontend/.'
+                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:front-${BUILD_NUMBER} ./app/frontend/.'
                  sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY_URI}'
-                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}'
+                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:front-${BUILD_NUMBER}'
              }
          }
          stage('Build Docker Image back') {
              steps {
-                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER} ./app/backend/.'
+                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:back-${BUILD_NUMBER} ./app/backend/.'
                  sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY_URI}'
-                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}'
+                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:back-${BUILD_NUMBER}'
              }
          }
          stage('Kubernetes Edit Files') {
