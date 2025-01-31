@@ -9,6 +9,14 @@ pipeline {
     //     AWS_REGION = 'ca-central-1'
     // }
 
+        environment {
+        // Credentials ID from AWS Credentials Plugin
+        AWS_ACCESS_KEY_ID = credentials('access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('secret-key')
+        ECR_REPOSITORY_URI= '796973496394.dkr.ecr.ca-central-1.amazonaws.com'
+        AWS_REGION = 'ca-central-1'
+    }
+
     stages {
         stage('echo') {
              steps {
@@ -18,9 +26,9 @@ pipeline {
          stage('Build Docker Image front') {
              steps {
                
-                 sh 'docker build -t ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER} ./app/frontend/.'
+                 sh 'docker build -t ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER} ./app/frontend/.'
                  sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY_URI}'
-                 sh 'docker push ${ECR_REPOSITORY_URI}/omar:${BUILD_NUMBER}'
+                 sh 'docker push ${ECR_REPOSITORY_URI}/headway:${BUILD_NUMBER}'
              }
          }
          stage('Build Docker Image back') {
